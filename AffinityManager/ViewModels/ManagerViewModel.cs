@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace AffinityManager.ViewModels
 {
-	class ManagerViewModel
+	internal sealed class ManagerViewModel : BaseViewModel
 	{
+
 	}
 }
