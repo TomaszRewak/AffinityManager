@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Privatest" Version="1.1.0" />
+  </ItemGroup>
+
 </Project>
