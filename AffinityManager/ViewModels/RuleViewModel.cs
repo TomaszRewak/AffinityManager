@@ -15,5 +15,17 @@ namespace AffinityManager.ViewModels
 			get => _name;
 			set => Set(ref _name, value);
 		}
+
+		[BackingField] private IReadOnlyCollection<bool> _cores = new List<bool>();
+		public IReadOnlyCollection<bool> Cores
+		{
+			get => _cores;
+			set => Set(ref _cores, value);
+		}
+
+		public RuleViewModel()
+		{
+			Cores = Enumerable.Range(0, 10).Select(_ => new Random().Next() % 2 == 0).ToList();
+		}
 	}
 }
