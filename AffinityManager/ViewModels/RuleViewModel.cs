@@ -16,8 +16,8 @@ namespace AffinityManager.ViewModels
 			set => Set(ref _name, value);
 		}
 
-		[BackingField] private IReadOnlyCollection<bool> _cores = new List<bool>();
-		public IReadOnlyCollection<bool> Cores
+		[BackingField] private IReadOnlyCollection<CoreViewModel> _cores = new List<CoreViewModel>();
+		public IReadOnlyCollection<CoreViewModel> Cores
 		{
 			get => _cores;
 			set => Set(ref _cores, value);
@@ -25,7 +25,7 @@ namespace AffinityManager.ViewModels
 
 		public RuleViewModel()
 		{
-			Cores = Enumerable.Range(0, 10).Select(_ => new Random().Next() % 2 == 0).ToList();
+			Cores = Enumerable.Range(0, 10).Select(_ => new CoreViewModel { IsEnabled = new Random().Next() % 2 == 0 }).ToList();
 		}
 	}
 }

@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:local="clr-namespace:AffinityManager.Views" 
 	xmlns:viewmodels="clr-namespace:AffinityManager.ViewModels"
+	xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
 	mc:Ignorable="d"
 	d:DesignHeight="450"
 	d:DesignWidth="800"
@@ -18,7 +19,7 @@
 		</ItemsControl.ItemsPanel>
 		<ItemsControl.ItemTemplate>
 			<DataTemplate>
-				<Border Margin="5" Width="10" Height="10" CornerRadius="2" Background="CornflowerBlue"/>
+				<local:CoreControl DataContext="{Binding}"/>
 			</DataTemplate>
 		</ItemsControl.ItemTemplate>
 	</ItemsControl>
