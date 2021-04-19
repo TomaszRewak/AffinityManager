@@ -11,7 +11,8 @@
 	Height="450"
 	Width="800"
 	d:DataContext="{d:DesignInstance viewmodels:ManagerViewModel}">
-	<Grid>
+	<StackPanel>
+		<TextBlock Text="{Binding NumberOfProcesses}"/>
 		<ItemsControl ItemsSource="{Binding Rules}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
@@ -19,5 +20,5 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-	</Grid>
+	</StackPanel>
 </Window>
