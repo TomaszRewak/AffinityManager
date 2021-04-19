@@ -1,7 +1,9 @@
-﻿using Privatest;
+﻿using AffinityManager.Common;
+using Privatest;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace AffinityManager.ViewModels
@@ -44,11 +46,20 @@ namespace AffinityManager.ViewModels
 			_timer.Start();
 
 			NumberOfCores = Environment.ProcessorCount;
+
+			ApplyChangesCommand = new Command(ApplyChanges);
 		}
 
 		private void UpdateProcesses()
 		{
 			NumberOfProcesses = Process.GetProcesses().Length;
+		}
+
+		public ICommand ApplyChangesCommand { get; }
+		private void ApplyChanges()
+		{
+			foreach (var rule in Rules)
+				rule.Changed = false;
 		}
 	}
 }
