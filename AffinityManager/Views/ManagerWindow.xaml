@@ -13,6 +13,7 @@
 	d:DataContext="{d:DesignInstance viewmodels:ManagerViewModel}">
 	<StackPanel>
 		<TextBlock Text="{Binding NumberOfProcesses}"/>
+		<TextBlock Text="{Binding NumberOfCores}"/>
 		<ItemsControl ItemsSource="{Binding Rules}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>

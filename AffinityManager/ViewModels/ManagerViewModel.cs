@@ -24,6 +24,13 @@ namespace AffinityManager.ViewModels
 			set => Set(ref _numberOfProcesses, value);
 		}
 
+		[BackingField] private int _numberOfCores;
+		public int NumberOfCores
+		{
+			get => _numberOfCores;
+			set => Set(ref _numberOfCores, value);
+		}
+
 		public ManagerViewModel()
 		{
 			Rules = new List<RuleViewModel>
@@ -35,6 +42,8 @@ namespace AffinityManager.ViewModels
 
 			_timer = new DispatcherTimer(TimeSpan.FromSeconds(10), DispatcherPriority.Background, (e, a) => UpdateProcesses(), Dispatcher.CurrentDispatcher);
 			_timer.Start();
+
+			NumberOfCores = Environment.ProcessorCount;
 		}
 
 		private void UpdateProcesses()
