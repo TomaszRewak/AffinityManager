@@ -26,6 +26,7 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
+		<TextBlock Text="{Binding MatchingProcesses}"/>
 		<TextBlock Text="✎" Visibility="{Binding Changed, Converter={converters:BooleanConverter WhenTrue={x:Static Visibility.Visible}, WhenFalse={x:Static Visibility.Collapsed}}}"/>
 	</StackPanel>
 </UserControl>

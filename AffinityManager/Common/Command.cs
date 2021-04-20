@@ -24,4 +24,8 @@ namespace AffinityManager.Common
 
 		public event EventHandler CanExecuteChanged;
 	}
+
+	[AttributeUsage(AttributeTargets.Property)]
+	sealed class CommandGetterAttribute : Attribute
+	{ }
 }

@@ -1,4 +1,5 @@
-﻿using AffinityManager.ViewModels;
+﻿using AffinityManager.Managers;
+using AffinityManager.ViewModels;
 using AffinityManager.Views;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,9 @@ namespace AffinityManager
 		{
 			base.OnStartup(e);
 
-			var managerViewModel = new ManagerViewModel();
+			var processManager = new ProcessManager();
+
+			var managerViewModel = new ManagerViewModel(processManager);
 			var managerWindow = new ManagerWindow
 			{
 				DataContext = managerViewModel

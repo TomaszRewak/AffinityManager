@@ -7,7 +7,7 @@ namespace AffinityManager.ViewModels
 {
 	internal sealed class RuleViewModel : BaseViewModel
 	{
-		[BackingField] private string _name;
+		[BackingField] private string _name = string.Empty;
 		public string Name
 		{
 			get => _name;
@@ -15,7 +15,7 @@ namespace AffinityManager.ViewModels
 				.Then(MarkAsChanged);
 		}
 
-		[BackingField] private string _pattern;
+		[BackingField] private string _pattern = string.Empty;
 		public string Pattern
 		{
 			get => _pattern;
@@ -28,6 +28,13 @@ namespace AffinityManager.ViewModels
 		{
 			get => _changed;
 			set => Set(ref _changed, value);
+		}
+
+		[BackingField] private int _matchingProcesses;
+		public int MatchingProcesses
+		{
+			get => _matchingProcesses;
+			set => Set(ref _matchingProcesses, value);
 		}
 
 		[BackingField] private IReadOnlyCollection<CoreViewModel> _cores = new List<CoreViewModel>();
