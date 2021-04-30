@@ -1,32 +1,50 @@
-﻿<UserControl 
-	x:Class="AffinityManager.Views.RuleControl"
+﻿<UserControl
+	x:Class="AffinityManager.Views.RuleView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:local="clr-namespace:AffinityManager.Views" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:AffinityManager.Views"
 	xmlns:viewmodels="clr-namespace:AffinityManager.ViewModels"
 	xmlns:converters="clr-namespace:AffinityManager.Converters"
+	xmlns:controls="clr-namespace:AffinityManager.Controls"
 	mc:Ignorable="d"
 	d:DesignHeight="450"
 	d:DesignWidth="800"
 	d:DataContext="{d:DesignInstance viewmodels:RuleViewModel}">
-	<StackPanel Orientation="Horizontal">
-		<TextBox Width="150" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-		<TextBox Width="300" Text="{Binding Pattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-		<ItemsControl ItemsSource="{Binding Cores}">
+	<StackPanel
+		Orientation="Horizontal">
+		<controls:TextBoxWithPlaceholder
+			Width="150"
+			Margin="5 5 0 5"
+			Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+			Placeholder="rule name" />
+		<controls:TextBoxWithPlaceholder
+			Width="300"
+			Margin="5 5 0 5"
+			Text="{Binding Pattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+			Placeholder="^my_app[0-9]*$"/>
+		<ItemsControl
+			ItemsSource="{Binding Cores}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<StackPanel Orientation="Horizontal"/>
+					<StackPanel
+						Orientation="Horizontal" />
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<local:CoreControl DataContext="{Binding}"/>
+					<local:CoreView
+						DataContext="{Binding}" />
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<TextBlock Text="{Binding MatchingProcesses}"/>
-		<TextBlock Text="✎" Visibility="{Binding Changed, Converter={converters:BooleanConverter WhenTrue={x:Static Visibility.Visible}, WhenFalse={x:Static Visibility.Collapsed}}}"/>
+		<TextBlock
+			VerticalAlignment="Center"
+			Text="{Binding MatchingProcesses}" />
+		<TextBlock
+			Text="✎"
+			Visibility="{Binding Changed, Converter={converters:BooleanConverter WhenTrue={x:Static Visibility.Visible}, WhenFalse={x:Static Visibility.Collapsed}}}"
+			VerticalAlignment="Center"/>
 	</StackPanel>
 </UserControl>

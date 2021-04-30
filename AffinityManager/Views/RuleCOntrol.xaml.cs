@@ -5,9 +5,9 @@ namespace AffinityManager.Views
 	/// <summary>
 	/// Interaction logic for RuleCOntrol.xaml
 	/// </summary>
-	public partial class RuleControl : UserControl
+	public partial class RuleView : UserControl
 	{
-		public RuleControl()
+		public RuleView()
 		{
 			InitializeComponent();
 		}

@@ -6,6 +6,13 @@ namespace AffinityManager.ViewModels
 {
 	internal sealed class CoreViewModel : BaseViewModel
 	{
+		[BackingField] private int _coreNumber;
+		public int CoreNumber
+		{
+			get => _coreNumber;
+			set => Set(ref _coreNumber, value);
+		}
+
 		[BackingField] private bool _isEnabled;
 		public bool IsEnabled
 		{

@@ -5,9 +5,9 @@ namespace AffinityManager.Views
 	/// <summary>
 	/// Interaction logic for CoreControl.xaml
 	/// </summary>
-	public partial class CoreControl : UserControl
+	public partial class CoreView : UserControl
 	{
-		public CoreControl()
+		public CoreView()
 		{
 			InitializeComponent();
 		}

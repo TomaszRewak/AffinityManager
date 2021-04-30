@@ -10,14 +10,15 @@
 	Title="ManagerWindow"
 	Height="450"
 	Width="800"
-	d:DataContext="{d:DesignInstance viewmodels:ManagerViewModel}">
+	d:DataContext="{d:DesignInstance viewmodels:ManagerViewModel}"
+	SizeToContent="WidthAndHeight">
 	<StackPanel>
 		<TextBlock Text="{Binding NumberOfProcesses}"/>
 		<TextBlock Text="{Binding NumberOfCores}"/>
 		<ItemsControl ItemsSource="{Binding Rules}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<local:RuleControl DataContext="{Binding}"/>
+					<local:RuleView DataContext="{Binding}"/>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

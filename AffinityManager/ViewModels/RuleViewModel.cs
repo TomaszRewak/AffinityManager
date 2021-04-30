@@ -46,7 +46,14 @@ namespace AffinityManager.ViewModels
 
 		public RuleViewModel()
 		{
-			Cores = Enumerable.Range(0, 10).Select(_ => new CoreViewModel { IsEnabled = new Random().Next() % 2 == 0 }).ToList();
+			Cores = Enumerable
+				.Range(0, 10)
+				.Select(i => new CoreViewModel
+				{
+					CoreNumber = i + 1,
+					IsEnabled = new Random().Next() % 2 == 0
+				})
+				.ToList();
 		}
 
 		private void MarkAsChanged()
