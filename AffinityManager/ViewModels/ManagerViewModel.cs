@@ -53,6 +53,12 @@ namespace AffinityManager.ViewModels
 			UpdateProcesses();
 		}
 
+		[CommandGetter] public ICommand AddRuleCommand { get; }
+		private void AddRule()
+		{
+			Rules = Rules.Concat(new[] { new RuleViewModel() }).ToList();
+		}
+
 		public ManagerViewModel(ProcessManager processManager)
 		{
 			_processManager = processManager;
@@ -72,6 +78,7 @@ namespace AffinityManager.ViewModels
 			NumberOfCores = Environment.ProcessorCount;
 
 			ApplyChangesCommand = new Command(ApplyChanges);
+			AddRuleCommand = new Command(AddRule);
 		}
 
 		private void UpdateProcesses()
