@@ -13,16 +13,32 @@
 	d:DataContext="{d:DesignInstance viewmodels:ManagerViewModel}"
 	SizeToContent="WidthAndHeight">
 	<StackPanel>
-		<TextBlock Text="{Binding NumberOfProcesses}"/>
-		<TextBlock Text="{Binding NumberOfCores}"/>
-		<ItemsControl ItemsSource="{Binding Rules}">
+		<TextBlock
+			Text="{Binding NumberOfProcesses}" />
+		<TextBlock
+			Text="{Binding NumberOfCores}" />
+		<ItemsControl
+			ItemsSource="{Binding Rules}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel
+						x:Name="RulesContainer" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<local:RuleView DataContext="{Binding}"/>
+					<local:RuleView
+						DataContext="{Binding}" />
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<Button Content="Add new rule" Margin="5" Background="#bbeebb" Command="{Binding AddRuleCommand}"/>
-		<Button Content="Apply changes" Command="{Binding ApplyChangesCommand}"/>
+		<Button
+			Content="Add new rule"
+			Margin="5"
+			Background="#bbeebb"
+			Command="{Binding AddRuleCommand}" />
+		<Button
+			Content="Apply changes"
+			Command="{Binding ApplyChangesCommand}" />
 	</StackPanel>
 </Window>
