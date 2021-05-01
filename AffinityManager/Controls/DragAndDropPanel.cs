@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Privatest;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,10 +9,43 @@ namespace AffinityManager.Controls
 {
 	public sealed class DragAndDropPanel : Panel
 	{
-		private DragHandle _dragHandle;
-		private UIElement _dragRow;
-		private Point _dragStartPosition;
-		private Point _dragPosition;
+		private sealed record DragState(DragHandle Handle, UIElement Row, Point StartPosition)
+		{
+			public Point Position { get; init; } = StartPosition;
+		}
+
+		[BackingField] private DragState? _state;
+		private DragState? State
+		{
+			get => _state;
+			set
+			{
+				if (_state?.Handle != value?.Handle)
+				{
+					if (_state is not null)
+					{
+						_state.Handle.ReleaseMouseCapture();
+						_state.Handle.MouseMove -= OnDrag;
+					}
+
+					if (value is not null)
+					{
+						value.Handle.CaptureMouse();
+						value.Handle.MouseMove += OnDrag;
+					}
+				}
+
+				if (_state?.Row != value?.Row)
+				{
+					_state?.Row?.SetValue(ZIndexProperty, 0);
+					value?.Row?.SetValue(ZIndexProperty, 100);
+				}
+
+				_state = value;
+
+				InvalidateArrange();
+			}
+		}
 
 		public void Tets()
 		{
@@ -41,8 +75,8 @@ namespace AffinityManager.Controls
 			foreach (UIElement child in Children)
 			{
 				var rect = new Rect(
-					child == _dragRow ? _dragPosition.X - _dragStartPosition.X : 0,
-					child == _dragRow ? top + _dragPosition.Y - _dragStartPosition.Y : top,
+					child == State?.Row ? State.Position.X - State.StartPosition.X : 0,
+					child == State?.Row ? top + State.Position.Y - State.StartPosition.Y : top,
 					child.DesiredSize.Width,
 					child.DesiredSize.Height);
 
@@ -56,37 +90,22 @@ namespace AffinityManager.Controls
 
 		internal void StartDrag(DragHandle dragHandle)
 		{
-			_dragHandle = dragHandle;
-			_dragHandle.CaptureMouse();
-			_dragHandle.MouseMove += OnDrag;
+			var row = Children.OfType<UIElement>().First(row => row.IsAncestorOf(dragHandle));
+			var mousePosition = Mouse.GetPosition(this);
 
-			_dragRow = Children.OfType<UIElement>().First(row => row.IsAncestorOf(dragHandle));
-			_dragRow.SetValue(ZIndexProperty, 100);
-
-			_dragStartPosition = Mouse.GetPosition(this);
-			_dragPosition = _dragStartPosition;
+			State = new DragState(dragHandle, row, mousePosition);
 		}
 
 		internal void StopDrag()
 		{
-			_dragHandle.MouseMove -= OnDrag;
-			_dragHandle.ReleaseMouseCapture();
-			_dragHandle = null;
-
-			_dragRow.SetValue(ZIndexProperty, 0);
-			_dragRow = null;
-
-			_dragStartPosition = new Point();
-			_dragPosition = new Point();
-
-			InvalidateArrange();
+			State = null;
 		}
 
-		private void OnDrag(object sender, System.Windows.Input.MouseEventArgs e)
+		private void OnDrag(object sender, MouseEventArgs e)
 		{
-			_dragPosition = Mouse.GetPosition(this);
+			if (State == null) return;
 
-			InvalidateArrange();
+			State = State with { Position = Mouse.GetPosition(this) };
 		}
 	}
 }

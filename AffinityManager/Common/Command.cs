@@ -12,17 +12,17 @@ namespace AffinityManager.Common
 			_action = action;
 		}
 
-		public bool CanExecute(object parameter)
+		public bool CanExecute(object? parameter)
 		{
 			return true;
 		}
 
-		public void Execute(object parameter)
+		public void Execute(object? parameter)
 		{
 			_action();
 		}
 
-		public event EventHandler CanExecuteChanged;
+		public event EventHandler? CanExecuteChanged;
 	}
 
 	[AttributeUsage(AttributeTargets.Property)]

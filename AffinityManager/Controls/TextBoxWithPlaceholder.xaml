@@ -10,10 +10,12 @@
 	d:DesignHeight="450"
 	d:DesignWidth="800">
 	<Grid>
+		<Border
+			Background="White" />
 		<TextBlock
 			Padding="3, 0, 0, 0"
-			Text="{Binding Placeholder, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}}" 
-			VerticalAlignment="Center"/>
+			Text="{Binding Placeholder, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}}"
+			VerticalAlignment="Center" />
 		<TextBox
 			Text="{Binding Text, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
 			Opacity="{Binding Text, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}, Converter={converters:EmptyStringConverter WhenEmpty=0.7, WhenNotEmpty=1}}" />
