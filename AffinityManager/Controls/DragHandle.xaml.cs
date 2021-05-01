@@ -19,14 +19,14 @@ namespace AffinityManager.Controls
 {
 	public partial class DragHandle : UserControl
 	{
-		[This(nameof(Container))] private static DependencyProperty ContainerProperty = DependencyProperty.Register(nameof(Container), typeof(StackPanel), typeof(DragHandle));
-		public StackPanel Container
+		private static DependencyProperty ContainerProperty = DependencyProperty.Register(nameof(Container), typeof(DragAndDropPanel), typeof(DragHandle));
+		public DragAndDropPanel Container
 		{
-			get => GetValue(ContainerProperty) as StackPanel;
+			get => GetValue(ContainerProperty) as DragAndDropPanel;
 			set => SetValue(ContainerProperty, value);
 		}
 
-		[This(nameof(Row))] private static DependencyProperty RowProperty = DependencyProperty.Register(nameof(Row), typeof(UserControl), typeof(DragHandle));
+		private static DependencyProperty RowProperty = DependencyProperty.Register(nameof(Row), typeof(UserControl), typeof(DragHandle));
 		public UserControl Row
 		{
 			get => GetValue(RowProperty) as UserControl;
@@ -36,40 +36,30 @@ namespace AffinityManager.Controls
 		public DragHandle()
 		{
 			InitializeComponent();
+
+			//SetBinding(ContainerProperty, new Binding
+			//{
+			//	RelativeSource = new RelativeSource
+			//	{
+			//		Mode = RelativeSourceMode.FindAncestor,
+			//		AncestorType = typeof(DragAndDropPanel),
+			//		AncestorLevel = 1
+			//	}
+			//});
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
 			base.OnMouseDown(e);
 
-			CaptureMouse();
+			Container.StartDrag(this);
 		}
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
 			base.OnMouseUp(e);
 
-			ReleaseMouseCapture();
-		}
-
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-
-			var mousePosition = e.GetPosition(Container);
-
-			for (int i = 0; i < Container.Children.Count; i++)
-			{
-
-				var child = Container.Children[i];
-				var childPosition = child.TranslatePoint(new Point(), Container).Y;
-				var childSize = child.DesiredSize.Height;
-
-				if (child.IsAncestorOf(Row))
-				{
-					Trace.WriteLine(i);
-				}
-			}
+			Container.StopDrag();
 		}
 	}
 }
