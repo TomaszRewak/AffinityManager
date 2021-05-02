@@ -73,6 +73,7 @@ namespace AffinityManager.ViewModels
 			_timer = new DispatcherTimer(TimeSpan.FromSeconds(10), DispatcherPriority.Background, (e, a) => UpdateProcesses(), Dispatcher.CurrentDispatcher);
 			_timer.Start();
 
+			Rules.CollectionChanged += (s, e) => UpdateProcesses();
 			UpdateProcesses();
 
 			NumberOfCores = Environment.ProcessorCount;
