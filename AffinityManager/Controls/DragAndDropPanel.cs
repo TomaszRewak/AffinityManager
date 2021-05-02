@@ -12,7 +12,6 @@ namespace AffinityManager.Controls
 		private sealed record DragState(DragHandle Handle, UIElement Row, Point StartPosition, Vector MouseOffset)
 		{
 			public Point Position { get; init; } = StartPosition;
-			public Rect RowRect => new Rect(Position - MouseOffset, Row.DesiredSize);
 		}
 
 		public sealed class DragEventArgs : EventArgs
@@ -83,15 +82,15 @@ namespace AffinityManager.Controls
 			{
 				switch (State)
 				{
-					case { Row: var row, RowRect: var rowRect } when row == child:
-						row.Arrange(rowRect);
+					case { Row: var row, Position: var position, MouseOffset: var mouseOffset } when row == child:
+						row.Arrange(new Rect(position - mouseOffset, new Size(DesiredSize.Width, row.DesiredSize.Height)));
 						continue;
 					case { Row: var row, Position: { Y: var y } } when y >= top && y < top + child.DesiredSize.Height:
 						top += row.DesiredSize.Height;
 						break;
 				}
 
-				child.Arrange(new Rect(new Point(0, top), child.DesiredSize));
+				child.Arrange(new Rect(0, top, DesiredSize.Width, child.DesiredSize.Height));
 
 				top += child.DesiredSize.Height;
 			}
