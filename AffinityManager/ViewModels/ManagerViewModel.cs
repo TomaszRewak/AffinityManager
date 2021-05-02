@@ -1,9 +1,11 @@
 ﻿using AffinityManager.Common;
+using AffinityManager.Controls;
 using AffinityManager.Data;
 using AffinityManager.Managers;
 using Privatest;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -16,12 +18,7 @@ namespace AffinityManager.ViewModels
 		private readonly DispatcherTimer _timer;
 		private readonly ProcessManager _processManager;
 
-		[BackingField] private IReadOnlyCollection<RuleViewModel> _rules = new List<RuleViewModel>();
-		public IReadOnlyCollection<RuleViewModel> Rules
-		{
-			get => _rules;
-			set => Set(ref _rules, value);
-		}
+		public ObservableCollection<RuleViewModel> Rules { get; } = new ObservableCollection<RuleViewModel>();
 
 		[BackingField] private int _numberOfProcesses;
 		public int NumberOfProcesses
@@ -56,19 +53,22 @@ namespace AffinityManager.ViewModels
 		[CommandGetter] public ICommand AddRuleCommand { get; }
 		private void AddRule()
 		{
-			Rules = Rules.Concat(new[] { new RuleViewModel() }).ToList();
+			Rules.Add(new RuleViewModel());
+		}
+
+		[CommandGetter] public ICommand DragCommand { get; }
+		private void Drag(DragAndDropPanel.DragEventArgs eventArgs)
+		{
+			Rules.Move(eventArgs.StartIndex, eventArgs.EndIndex);
 		}
 
 		public ManagerViewModel(ProcessManager processManager)
 		{
 			_processManager = processManager;
 
-			Rules = new List<RuleViewModel>
-			{
-				new RuleViewModel(),
-				new RuleViewModel(),
-				new RuleViewModel()
-			};
+			AddRule();
+			AddRule();
+			AddRule();
 
 			_timer = new DispatcherTimer(TimeSpan.FromSeconds(10), DispatcherPriority.Background, (e, a) => UpdateProcesses(), Dispatcher.CurrentDispatcher);
 			_timer.Start();
@@ -79,6 +79,7 @@ namespace AffinityManager.ViewModels
 
 			ApplyChangesCommand = new Command(ApplyChanges);
 			AddRuleCommand = new Command(AddRule);
+			DragCommand = new Command<DragAndDropPanel.DragEventArgs>(Drag);
 		}
 
 		private void UpdateProcesses()

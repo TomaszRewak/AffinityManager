@@ -7,6 +7,7 @@
 	xmlns:local="clr-namespace:AffinityManager.Views"
 	xmlns:viewmodels="clr-namespace:AffinityManager.ViewModels"
 	xmlns:controls="clr-namespace:AffinityManager.Controls"
+	xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
 	mc:Ignorable="d"
 	Title="ManagerWindow"
 	Height="450"
@@ -22,7 +23,16 @@
 			ItemsSource="{Binding Rules}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<controls:DragAndDropPanel />
+					<controls:DragAndDropPanel>
+						<i:Interaction.Triggers>
+							<i:EventTrigger
+								EventName="ElementDragged">
+								<i:InvokeCommandAction
+									Command="{Binding DragCommand}"
+									PassEventArgsToCommand="True" />
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</controls:DragAndDropPanel>
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>

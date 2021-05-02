@@ -9,9 +9,16 @@ namespace AffinityManager.Controls
 {
 	public sealed class DragAndDropPanel : Panel
 	{
-		private sealed record DragState(DragHandle Handle, UIElement Row, Point StartPosition)
+		private sealed record DragState(DragHandle Handle, UIElement Row, Point StartPosition, Vector MouseOffset)
 		{
 			public Point Position { get; init; } = StartPosition;
+			public Rect RowRect => new Rect(Position - MouseOffset, Row.DesiredSize);
+		}
+
+		public sealed class DragEventArgs : EventArgs
+		{
+			public int StartIndex { get; init; }
+			public int EndIndex { get; init; }
 		}
 
 		[BackingField] private DragState? _state;
@@ -74,15 +81,19 @@ namespace AffinityManager.Controls
 
 			foreach (UIElement child in Children)
 			{
-				var rect = new Rect(
-					child == State?.Row ? State.Position.X - State.StartPosition.X : 0,
-					child == State?.Row ? top + State.Position.Y - State.StartPosition.Y : top,
-					child.DesiredSize.Width,
-					child.DesiredSize.Height);
+				switch (State)
+				{
+					case { Row: var row, RowRect: var rowRect } when row == child:
+						row.Arrange(rowRect);
+						continue;
+					case { Row: var row, Position: { Y: var y } } when y >= top && y < top + child.DesiredSize.Height:
+						top += row.DesiredSize.Height;
+						break;
+				}
+
+				child.Arrange(new Rect(new Point(0, top), child.DesiredSize));
 
 				top += child.DesiredSize.Height;
-
-				child.Arrange(rect);
 			}
 
 			return DesiredSize;
@@ -92,20 +103,51 @@ namespace AffinityManager.Controls
 		{
 			var row = Children.OfType<UIElement>().First(row => row.IsAncestorOf(dragHandle));
 			var mousePosition = Mouse.GetPosition(this);
+			var mouseOffset = Mouse.GetPosition(row);
 
-			State = new DragState(dragHandle, row, mousePosition);
+			State = new DragState(dragHandle, row, mousePosition, new Vector(mouseOffset.X, mouseOffset.Y));
 		}
 
 		internal void StopDrag()
 		{
+			if (State == null) return;
+
+			var startIndex = 0 as int?;
+			var endIndex = 0 as int?;
+
+			var top = 0.0;
+			var index = 0;
+
+			foreach (UIElement child in Children)
+			{
+				if (State.Row == child)
+					startIndex = index;
+
+				if (State.Position.Y >= top && State.Position.Y < top + child.DesiredSize.Height)
+					endIndex = index;
+
+				top += child.DesiredSize.Height;
+				index++;
+			}
+
 			State = null;
+
+			if (startIndex.HasValue && endIndex.HasValue && startIndex != endIndex)
+				ElementDragged?.Invoke(this, new DragEventArgs { StartIndex = startIndex.Value, EndIndex = endIndex.Value });
 		}
 
 		private void OnDrag(object sender, MouseEventArgs e)
 		{
 			if (State == null) return;
 
-			State = State with { Position = Mouse.GetPosition(this) };
+			var mousePosition = Mouse.GetPosition(this);
+			var clippedPosition = new Point(
+				Math.Clamp(mousePosition.X, State.MouseOffset.X, DesiredSize.Width - State.MouseOffset.X),
+				Math.Clamp(mousePosition.Y, State.MouseOffset.Y, DesiredSize.Height - State.Row.DesiredSize.Height + State.MouseOffset.Y));
+
+			State = State with { Position = clippedPosition };
 		}
+
+		public event EventHandler<DragEventArgs>? ElementDragged;
 	}
 }
