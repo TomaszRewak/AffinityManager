@@ -13,11 +13,14 @@
 		<Border
 			Background="White" />
 		<TextBlock
-			Padding="3, 0, 0, 0"
+			Padding="3, 0, 0, 1"
 			Text="{Binding Placeholder, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}}"
 			VerticalAlignment="Center" />
 		<TextBox
 			Text="{Binding Text, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-			Opacity="{Binding Text, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}, Converter={converters:EmptyStringConverter WhenEmpty=0.7, WhenNotEmpty=1}}" />
+			Opacity="{Binding Text, RelativeSource={RelativeSource AncestorType=local:TextBoxWithPlaceholder}, Converter={converters:EmptyStringConverter WhenEmpty=0.7, WhenNotEmpty=1}}"
+			BorderThickness="0 0 0 1"
+			BorderBrush="LightGray"
+			Padding="1 1 1 0"/>
 	</Grid>
 </UserControl>

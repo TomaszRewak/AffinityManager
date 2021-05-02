@@ -15,10 +15,10 @@
 	d:DataContext="{d:DesignInstance viewmodels:ManagerViewModel}"
 	SizeToContent="WidthAndHeight">
 	<StackPanel>
-		<TextBlock
+		<!--<TextBlock
 			Text="{Binding NumberOfProcesses}" />
 		<TextBlock
-			Text="{Binding NumberOfCores}" />
+			Text="{Binding NumberOfCores}" />-->
 		<ItemsControl
 			ItemsSource="{Binding Rules}">
 			<ItemsControl.ItemsPanel>
@@ -42,13 +42,13 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<Button
+		<!--<Button
 			Content="Add new rule"
 			Margin="5"
 			Background="#bbeebb"
 			Command="{Binding AddRuleCommand}" />
 		<Button
 			Content="Apply changes"
-			Command="{Binding ApplyChangesCommand}" />
+			Command="{Binding ApplyChangesCommand}" />-->
 	</StackPanel>
 </Window>

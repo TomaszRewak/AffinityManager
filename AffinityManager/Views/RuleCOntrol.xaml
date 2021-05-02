@@ -12,7 +12,7 @@
 	d:DesignHeight="450"
 	d:DesignWidth="800"
 	d:DataContext="{d:DesignInstance viewmodels:RuleViewModel}">
-	<DockPanel>
+	<DockPanel Margin="5 5 5 5" SnapsToDevicePixels="True">
 		<StackPanel
 			Orientation="Horizontal"
 			DockPanel.Dock="Right">
@@ -27,22 +27,35 @@
 			Orientation="Horizontal">
 			<controls:DragHandle
 				Width="14"
-				Margin="5 4 0 4"
 				Container="{Binding RelativeSource={RelativeSource AncestorType=controls:DragAndDropPanel}}" />
 			<controls:TextBoxWithPlaceholder
 				Width="150"
-				Margin="5 5 0 5"
 				Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 				Placeholder="rule name" />
-			<controls:TextBoxWithPlaceholder
-				Width="300"
-				Margin="5 5 0 5"
-				Text="{Binding Pattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-				Placeholder="^my_app[0-9]*$" />
+			<DockPanel
+				Width="300">
+				<Border
+					DockPanel.Dock="Right"
+					Background="CornflowerBlue"
+					VerticalAlignment="Stretch"
+					Padding="5 0 5 0"
+					MinWidth="19">
+					<TextBlock
+						Text="{Binding MatchingProcesses}"
+						Foreground="White"
+						TextAlignment="Center" 
+						VerticalAlignment="Center"/>
+				</Border>
+				<controls:TextBoxWithPlaceholder
+					Margin="5 0 0 0"
+					Text="{Binding Pattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Placeholder="^my_app[0-9]*$" />
+			</DockPanel>
 			<ItemsControl
 				ItemsSource="{Binding Cores}"
 				VerticalAlignment="Center"
-				Margin="5 0 5 0">
+				Margin="5 0 5 0"
+				Background="#eeeeee">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel
@@ -56,9 +69,6 @@
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
-			<TextBlock
-				VerticalAlignment="Center"
-				Text="{Binding MatchingProcesses}" />
 		</StackPanel>
 	</DockPanel>
 </UserControl>
