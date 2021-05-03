@@ -11,8 +11,11 @@
 	mc:Ignorable="d"
 	d:DesignHeight="450"
 	d:DesignWidth="800"
-	d:DataContext="{d:DesignInstance viewmodels:RuleViewModel}">
-	<DockPanel Margin="5 5 5 5" SnapsToDevicePixels="True">
+	d:DataContext="{d:DesignInstance viewmodels:RuleViewModel}"
+	xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+	<DockPanel
+		Margin="5 5 5 0"
+		SnapsToDevicePixels="True">
 		<StackPanel
 			Orientation="Horizontal"
 			DockPanel.Dock="Right">
@@ -43,8 +46,8 @@
 					<TextBlock
 						Text="{Binding MatchingProcesses}"
 						Foreground="White"
-						TextAlignment="Center" 
-						VerticalAlignment="Center"/>
+						TextAlignment="Center"
+						VerticalAlignment="Center" />
 				</Border>
 				<controls:TextBoxWithPlaceholder
 					Margin="5 0 0 0"
@@ -69,6 +72,14 @@
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
+			<ComboBox
+				Width="100"
+				Height="20">
+				<ComboBoxItem
+					Content="Normal" />
+				<ComboBoxItem
+					Content="Real time" />
+			</ComboBox>
 		</StackPanel>
 	</DockPanel>
 </UserControl>
