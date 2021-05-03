@@ -13,8 +13,23 @@
 	Height="450"
 	Width="800"
 	d:DataContext="{d:DesignInstance viewmodels:ManagerViewModel}"
-	SizeToContent="WidthAndHeight">
+	SizeToContent="WidthAndHeight"
+	ResizeMode="NoResize">
 	<StackPanel>
+		<Menu
+			BorderThickness="0 0 0 2"
+			BorderBrush="CornflowerBlue">
+			<MenuItem
+				Header="Config">
+				<MenuItem
+					Header="Save" />
+				<MenuItem
+					Header="Load" />
+			</MenuItem>
+			<MenuItem
+				Header="Apply changes"
+				Command="{Binding ApplyChangesCommand}" />
+		</Menu>
 		<!--<TextBlock
 			Text="{Binding NumberOfProcesses}" />
 		<TextBlock
@@ -42,13 +57,41 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<!--<Button
-			Content="Add new rule"
-			Margin="5"
-			Background="#bbeebb"
-			Command="{Binding AddRuleCommand}" />
 		<Button
-			Content="Apply changes"
-			Command="{Binding ApplyChangesCommand}" />-->
+			SnapsToDevicePixels="True"
+			Content="➕"
+			Margin="5 5 5 0"
+			Background="CornflowerBlue"
+			Foreground="White"
+			HorizontalAlignment="Left"
+			BorderThickness="0"
+			Padding="6 0"
+			Height="20"
+			Command="{Binding AddRuleCommand}">
+			<Button.Resources>
+				<Style
+					TargetType="{x:Type Border}">
+					<Setter
+						Property="CornerRadius"
+						Value="5 5 0 0" />
+				</Style>
+			</Button.Resources>
+		</Button>
+		<Menu
+			IsEnabled="False"
+			BorderThickness="0 2 0 0"
+			BorderBrush="CornflowerBlue">
+			<MenuItem
+				Header="Active processes:" />
+			<MenuItem
+				Header="{Binding NumberOfProcesses}"
+				Padding="0" />
+			<Separator Width="10" />
+			<MenuItem
+				Header="Number of cores:" />
+			<MenuItem
+				Header="{Binding NumberOfCores}"
+				Padding="0"/>
+		</Menu>
 	</StackPanel>
 </Window>
